@@ -3,15 +3,13 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\VesselResource\Pages;
-use App\Filament\Admin\Resources\VesselResource\RelationManagers;
 use App\Models\Vessel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class VesselResource extends Resource
 {
@@ -23,12 +21,20 @@ class VesselResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                    ->required()
+                    ->default(Auth::id()),
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company')
-                    ->required()
-                    ->maxLength(255),
+                    ->label(('Nama Kapal'))
+                    ->required(),
+                Forms\Components\Select::make('company')
+                    ->label('Perusahaan')
+                    ->options([
+                        'ASG' => 'ASG',
+                        'BGP' => 'BGP',
+                        'BNI' => 'BNI',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -45,8 +51,11 @@ class VesselResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Kapal')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company')
+                    ->label('Perusahaan')
+                    ->sortable()
                     ->searchable(),
             ])
             ->filters([
