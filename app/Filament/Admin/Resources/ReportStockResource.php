@@ -23,6 +23,9 @@ class ReportStockResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('user_id')
+                    ->required()
+                    ->numeric(),
                 Forms\Components\TextInput::make('vessel_id')
                     ->required()
                     ->numeric(),
@@ -93,6 +96,9 @@ class ReportStockResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('user_id')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('vessel_id')
                     ->numeric()
                     ->sortable(),
