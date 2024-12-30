@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('report_stocks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('vessel_id')->constrained();
             $table->string('request_by');
             $table->string('project');
