@@ -75,12 +75,16 @@ class ReportStockResource extends Resource
                     ->label('Nomor PO Berkah')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('stock_status')
+                Forms\Components\Select::make('stock_status')
                     ->label('Stock Status')
                     ->required()
-                    ->maxLength(255),
+                    ->options([
+                        'Belum Terima' => 'Belum Terima',
+                        'Sudah Terima' => 'Sudah Terima',
+                    ]),
                 Forms\Components\FileUpload::make('foto_barang_diterima')
                     ->label('Foto Barang Diterima')
+                    ->directory('report_stock')
                     ->image()
                     ->maxSize(10240)
                     ->required(),
@@ -96,10 +100,14 @@ class ReportStockResource extends Resource
                     ->label('Nomor PO Supply')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('status_stock_supply')
+                Forms\Components\Select::make('status_stock_supply')
                     ->label('Status Stock Supply')
-                    ->required()
-                    ->maxLength(255),
+                    ->options([
+                        'Sudah Tersupply' => 'Sudah Tersupply',
+                        'Belum Tersupply' => 'Belum Tersupply',
+                        'Tersupply Sebagian' => 'Tersupply Sebagian',
+                    ])
+                    ->required(),
             ]);
     }
 
