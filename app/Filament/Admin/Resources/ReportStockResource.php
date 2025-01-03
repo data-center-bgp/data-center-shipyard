@@ -3,15 +3,14 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ReportStockResource\Pages;
-use App\Filament\Admin\Resources\ReportStockResource\RelationManagers;
 use App\Models\ReportStock;
+use App\Models\Vessel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ReportStockResource extends Resource
 {
@@ -23,62 +22,81 @@ class ReportStockResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Hidden::make('user_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('vessel_id')
-                    ->required()
-                    ->numeric(),
+                    ->default(Auth::id()),
+                Forms\Components\Select::make('vessel_id')
+                    ->label('Nama Kapal')
+                    ->options(Vessel::all()->pluck('name', 'id'))
+                    ->required(),
                 Forms\Components\TextInput::make('request_by')
+                    ->label('Request By')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('project')
+                    ->label('Project')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nomor_po_logistik')
+                    ->label('Nomor PO Logistik')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('deskripsi')
+                    ->label('Deskripsi')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('jenis_tipe')
+                    ->label('Jenis/Tipe')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
+                    ->label('Quantity')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('uom')
+                    ->label('UOM')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('tanggal_request')
+                    ->label('Tanggal Request')
                     ->required(),
                 Forms\Components\DateTimePicker::make('actual_tiba')
+                    ->label('Tanggal Actual Tiba')
                     ->required(),
                 Forms\Components\TextInput::make('actual_quantity')
+                    ->label('Actual Quantity')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('actual_uom')
+                    ->label('Actual UOM')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nomor_po_berkah')
+                    ->label('Nomor PO Berkah')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('stock_status')
+                    ->label('Stock Status')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('foto_barang_diterima')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('foto_barang_diterima')
+                    ->label('Foto Barang Diterima')
+                    ->image()
+                    ->required(),
                 Forms\Components\TextInput::make('quantity_supply')
+                    ->label('Quantity Supply')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('uom_supply')
+                    ->label('UOM Supply')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nomor_po_supply')
+                    ->label('Nomor PO Supply')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('status_stock_supply')
+                    ->label('Status Stock Supply')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -98,50 +116,70 @@ class ReportStockResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('user_id')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('vessel_id')
-                    ->numeric()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('vessel.name')
+                    ->label('Nama Kapal')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('request_by')
+                    ->label('Request By')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('project')
+                    ->label('Project')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomor_po_logistik')
+                    ->label('Nomor PO Logistik')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deskripsi')
+                    ->label('Deskripsi')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jenis_tipe')
+                    ->label('Jenis/Tipe')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('quantity')
+                    ->label('Quantity')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('uom')
+                    ->label('UOM')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tanggal_request')
+                    ->label('Tanggal Request')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('actual_tiba')
+                    ->label('Tanggal Actual Tiba')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('actual_quantity')
+                    ->label('Actual Quantity')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('actual_uom')
+                    ->label('Actual UOM')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomor_po_berkah')
+                    ->label('Nomor PO Berkah')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('stock_status')
+                    ->label('Stock Status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('foto_barang_diterima')
+                    ->label('Foto Barang Diterima')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('quantity_supply')
+                    ->label('Quantity Supply')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('uom_supply')
+                    ->label('UOM Supply')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomor_po_supply')
+                    ->label('Nomor PO Supply')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status_stock_supply')
+                    ->label('Status Stock Supply')
                     ->searchable(),
             ])
             ->filters([
