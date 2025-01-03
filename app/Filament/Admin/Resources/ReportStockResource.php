@@ -82,6 +82,7 @@ class ReportStockResource extends Resource
                 Forms\Components\FileUpload::make('foto_barang_diterima')
                     ->label('Foto Barang Diterima')
                     ->image()
+                    ->maxSize(10240)
                     ->required(),
                 Forms\Components\TextInput::make('quantity_supply')
                     ->label('Quantity Supply')
@@ -165,9 +166,11 @@ class ReportStockResource extends Resource
                 Tables\Columns\TextColumn::make('stock_status')
                     ->label('Stock Status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('foto_barang_diterima')
+                Tables\Columns\ImageColumn::make('foto_barang_diterima')
                     ->label('Foto Barang Diterima')
-                    ->searchable(),
+                    ->url(fn ($state) => '/storage/'.$state)
+                    ->openUrlInNewTab()
+                    ->extraImgAttributes(['loading' => 'lazy']),
                 Tables\Columns\TextColumn::make('quantity_supply')
                     ->label('Quantity Supply')
                     ->numeric()
