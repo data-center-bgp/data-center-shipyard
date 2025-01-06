@@ -61,23 +61,18 @@ class ReportStockResource extends Resource
                     ->label('Tanggal Request')
                     ->required(),
                 Forms\Components\DateTimePicker::make('actual_tiba')
-                    ->label('Tanggal Actual Tiba')
-                    ->required(),
+                    ->label('Tanggal Actual Tiba'),
                 Forms\Components\TextInput::make('actual_quantity')
                     ->label('Actual Quantity')
-                    ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('actual_uom')
                     ->label('Actual UOM')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nomor_po_berkah')
                     ->label('Nomor PO Berkah')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('stock_status')
                     ->label('Stock Status')
-                    ->required()
                     ->options([
                         'Belum Terima' => 'Belum Terima',
                         'Sudah Terima' => 'Sudah Terima',
@@ -86,19 +81,15 @@ class ReportStockResource extends Resource
                     ->label('Foto Barang Diterima')
                     ->directory('report_stock')
                     ->image()
-                    ->maxSize(10240)
-                    ->required(),
+                    ->maxSize(10240),
                 Forms\Components\TextInput::make('quantity_supply')
                     ->label('Quantity Supply')
-                    ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('uom_supply')
                     ->label('UOM Supply')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nomor_po_supply')
                     ->label('Nomor PO Supply')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('status_stock_supply')
                     ->label('Status Stock Supply')
@@ -106,8 +97,7 @@ class ReportStockResource extends Resource
                         'Sudah Tersupply' => 'Sudah Tersupply',
                         'Belum Tersupply' => 'Belum Tersupply',
                         'Tersupply Sebagian' => 'Tersupply Sebagian',
-                    ])
-                    ->required(),
+                    ]),
             ]);
     }
 
