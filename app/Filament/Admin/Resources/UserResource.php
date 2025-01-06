@@ -9,7 +9,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
@@ -30,7 +29,7 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
-                    ->options(Role::all()->pluck('name', 'id'))
+                    ->multiple()
                     ->preload()
                     ->searchable(),
                 Forms\Components\TextInput::make('password')
