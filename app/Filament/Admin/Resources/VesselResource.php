@@ -86,4 +86,14 @@ class VesselResource extends Resource
             'edit' => Pages\EditVessel::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Vessel';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Vessel';
+    }
 }

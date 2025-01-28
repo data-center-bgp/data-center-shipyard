@@ -211,4 +211,14 @@ class ReportStockResource extends Resource
             'edit' => Pages\EditReportStock::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Report Stock';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Report Stock';
+    }
 }
